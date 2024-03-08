@@ -10,40 +10,40 @@ def c(x):
 
 
 tab_0 = sym.Matrix(
-    [[1 , 0    , 0   , 0],
-    [0 , c(a) , s(a), 0],
-    [0 ,-s(a) , c(a), 0.05],
-    [0 , 0    , 0   , 1 ]]
+    [[0, -s(a), -c(a), 0],
+    [0, c(a), -s(a), 0],
+    [1, 0, 0, 45],
+    [0, 0, 0, 1]]
 )
 
 t0_1 = sym.Matrix(
-    [[c(b) , -s(b)   , 0, 0.01],
-    [s(b) ,  c(b)   , 0, 0],
-    [0          , 0 , 1, 0.02],
-    [0          , 0   , 0, 1 ]]
+    [[0, s(b), c(b), 20],
+    [0,  c(b), -s(b), 0],
+    [-1, 0, 0, 0],
+    [0, 0, 0, 1 ]]
 )
 
 t2_1 = sym.Matrix(
-    [[c(d) , -s(d)   , 0, 0.095],
-    [s(d) ,  c(d)   , 0, 0],
-    [0          , 0 , 1, 0],
-    [0          , 0   , 0, 1 ]]
+    [[1, 0, 0, 0],
+    [0, c(d), -s(d), 0],
+    [0, s(d), c(d), 95],
+    [0, 0, 0, 1 ]]
 )
 
 t3_2 = sym.Matrix(
-    [[c(e) , -s(e)   , 0, 0.1025],
-    [s(e) ,  c(e)   , 0, 0],
-    [0          , 0 , 1, 0],
-    [0          , 0   , 0, 1 ]]
+    [[1, 0, 0, 0],
+    [0, c(e), -s(e), 0],
+    [0, s(e), c(e), 105],
+    [0, 0, 0, 1 ]]
 )
 
 tee_3 = sym.Matrix([
-    [1 , 0, 0, 0.075],
-    [0 , 1, 0, 0],
-    [0 , 0, 1, 0],
-    [0 , 0   , 0, 1 ]]
+    [1, 0, 0, 75],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]]
 )
-# sym.print_latex(sym.simplify(tab_0*t0_1*t2_1*t3_2*tee_3))
+sym.print_latex(sym.simplify(tab_0*t0_1*t2_1*t3_2*tee_3))
 
 
 # l0 = 0.19 # Distance from ground to the driven acces of J1
@@ -61,15 +61,13 @@ t4 = sym.Symbol('t4')
 tee = sym.Symbol('tee')
 
 res = sym.solve(
-    [0.095*c(t1) + 0.1025*c(t1 + t2) + 0.075*c(t1+t2+t3) + 0.01 - x,
-     0.02*s(t0) + 0.095*s(t1)*c(t0) + 0.1025*s(t1+t2)*c(t0) + 0.075*s(t1+t2+t3)*c(t0) - y,
-     -0.095*s(t0)*s(t1) - 0.1025*s(t0)*s(t1+t2) - 0.075*s(t0)*s(t1+t2+t3) + 0.02*c(t0) + 0.05 - z,
-     t1 + t2 + t3 - tee
+    [95*s(t0)*s(t1) + 105*s(t0)*s(t1+t2)+75*c(t0) - x,
+     75*s(t0) - 95*s(t1)*c(t0) - 105*s(t1+t2)*c(t0) - y,
+     95*c(t1) + 105*c(t1+t2) + 65 - z
      ],
     [t0,
      t1,
-     t1 + t2,
-     t1 + t2 + t3]
+     t2]
 )
 print(res)
 # res = sym.solve(
@@ -78,4 +76,4 @@ print(res)
 # )
 
 # print(res)
-sym.print_latex(sym.simplify(res))
+#sym.print_latex(sym.simplify(res))
