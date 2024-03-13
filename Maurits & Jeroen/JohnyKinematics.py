@@ -1,5 +1,5 @@
 import numpy as np
-from math import cos, sin, pi
+from math import cos, sin, pi, sqrt, acos, asin, atan
 
 def rotation_around_z_matrix(theta):
     '''Rotation matrix arround the z axis'''
@@ -125,6 +125,85 @@ class Johny:
                 @position_vector
                 )[0:3]
 
+    def get_EE_in_ground_vector(self):
+        l01y = 0.0
+        l01x = 0.01
+        l12 = 0.095
+        l23 = 0.1025
+        l3ee = 0.075
+        lab0 = 0.05
+        t0 = self.ang0
+        t1 = self.ang1
+        t2 = self.ang2
+        t3 = self.ang3
+
+        pos = np.array([
+            [-(l01y + l12*sin(t1) + l23*sin(t1 + t2) + l3ee*sin(t1 + t2 + t3))*cos(t0)], 
+            [-(l01y + l12*sin(t1) + l23*sin(t1 + t2) + l3ee*sin(t1 + t2 + t3))*sin(t0)], 
+            [l01x + l12*cos(t1) + l23*cos(t1 + t2) + l3ee*cos(t1 + t2 + t3) + lab0]
+            ])
+        
+        return {"x": pos[0], "y": pos[1], "z": pos[2]}
+    
+    def get_J3_in_ground_vector(self):
+        l01y = 0.0
+        l01x = 0.01
+        l12 = 0.095
+        l23 = 0.1025
+        l3ee = 0.075
+        lab0 = 0.05
+        t0 = self.ang0
+        t1 = self.ang1
+        t2 = self.ang2
+        t3 = self.ang3
+
+        pos = np.array([
+            [-(l01y + l12*sin(t1) + l23*sin(t1 + t2))*cos(t0)],
+            [-(l01y + l12*sin(t1) + l23*sin(t1 + t2))*sin(t0)],
+            [l01x + l12*cos(t1) + l23*cos(t1 + t2) + lab0]
+            ])
+        
+        return {"x": pos[0], "y": pos[1], "z": pos[2]}
+    
+    def get_J2_in_ground_vector(self):
+        l01y = 0.0
+        l01x = 0.01
+        l12 = 0.095
+        l23 = 0.1025
+        l3ee = 0.075
+        lab0 = 0.05
+        t0 = self.ang0
+        t1 = self.ang1
+        t2 = self.ang2
+        t3 = self.ang3
+
+        pos = np.array([
+            [-(l01y + l12*sin(t1))*cos(t0)], 
+            [-(l01y + l12*sin(t1))*sin(t0)],
+            [l01x + l12*cos(t1) + lab0]
+            ])
+        
+        return {"x": pos[0], "y": pos[1], "z": pos[2]}
+    
+    def get_J1_in_ground_vector(self):
+        l01y = 0.0
+        l01x = 0.01
+        l12 = 0.095
+        l23 = 0.1025
+        l3ee = 0.075
+        lab0 = 0.05
+        t0 = self.ang0
+        t1 = self.ang1
+        t2 = self.ang2
+        t3 = self.ang3
+
+        pos = np.array([
+            [-l01y*cos(t0)], 
+            [-l01y*sin(t0)],
+            [l01x + lab0]
+            ])
+        
+        return {"x": pos[0], "y": pos[1], "z": pos[2]}
     
     def get_frame_origins_in_ground_frame(self):
         """
@@ -200,4 +279,109 @@ class Johny:
                             hist[key]["z"].append(location["z"])
 
         return hist
+    
+    def symbolic_fk_test(self):
+        l01y = 0.0
+        l01x = 0.01
+        l12 = 0.095
+        l23 = 0.1025
+        l3ee = 0.075
+        lab0 = 0.05
+        t0 = self.ang0
+        t1 = self.ang1
+        t2 = self.ang2
+        t3 = self.ang3
+        joints = {}
+
+        # Transform arm base to ground
+        tg_ab =  np.array([[0, -1, 0, 0], [0, 0, -1, 0], [1, 0, 0, 0], [0, 0, 0, 1]])
+        # Transform joint 0 to arm base
+        tab_0 =  np.array([[1, 0, 0, lab0], [0, cos(t0), -sin(t0), 0], [0, sin(t0), cos(t0), 0], [0, 0, 0, 1]])
+        # Transform joint 1 to joint 0
+        t0_1 =  np.array([[cos(t1), -sin(t1), 0, l01x], [sin(t1), cos(t1), 0, l01y], [0, 0, 1, 0], [0, 0, 0, 1]])
+        # Transform joint 2 to joint 1
+        t2_1 =  np.array([[cos(t2), -sin(t2), 0, l12], [sin(t2), cos(t2), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+        # Transform joint 3 to joint 2
+        t3_2 =  np.array([[cos(t3), -sin(t3), 0, l23], [sin(t3), cos(t3), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+        # Transform EE to joint 3
+        tee_3 =  np.array([[1, 0, 0, l3ee], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+        #---
+        # EE position in ground frame:
+        x = (l01y + l12*sin(t1) + l23*sin(t1 + t2) + l3ee*sin(t1 + t2 + t3))*cos(t0)
+        y = (l01y + l12*sin(t1) + l23*sin(t1 + t2) + l3ee*sin(t1 + t2 + t3))*sin(t0)
+        z = l01x + l12*cos(t1) + l23*cos(t1 + t2) + l3ee*cos(t1 + t2 + t3) + lab0
+        joints["EE"] = {"x": x, "y": y, "z": z}
+        #---
+        # J3 position in ground frame:
+        x = (l01y + l12*sin(t1) + l23*sin(t1 + t2))*cos(t0)
+        y = (l01y + l12*sin(t1) + l23*sin(t1 + t2))*sin(t0)
+        z = l01x + l12*cos(t1) + l23*cos(t1 + t2) + lab0
+        joints["J3"] = {"x": x, "y": y, "z": z}
+        #---
+        # J2 position in ground frame:
+        x = (l01y + l12*sin(t1))*cos(t0)
+        y = (l01y + l12*sin(t1))*sin(t0)
+        z = l01x + l12*cos(t1) + lab0
+        joints["J2"] = {"x": x, "y": y, "z": z}
+        #---
+        # J1 position in ground frame:
+        x = l01y*cos(t0)
+        y = l01y*sin(t0)
+        z = l01x + lab0
+        joints["J1"] = {"x": x, "y": y, "z": z}
+        #---
+        # J0 position in ground frame:
+        x = 0
+        y = 0
+        z = lab0
+        joints["J0"] = {"x": x, "y": y, "z": z}
+        #---
+
+        return joints
+    
+    def manual_ik(self, xt, yt, zt, phi):
+        '''
+        Set the joint angles such that the EE reaches the points specified
+        '''
+        self.ang0 = atan(yt / xt)
+        x_proj = sqrt(xt**2 + yt**2)
+        y_proj = zt
+        l01y = 0.0
+        l01x = 0.01
+        l12 = 0.095
+        l23 = 0.1025
+        l3ee = 0.075
+        lab0 = 0.05
+
+        print("---\nIK ee pos:\n", x_proj, y_proj)
+        # Calcuate prerequisites
+        x_3 = x_proj + cos(phi) * l3ee
+        y_3 = y_proj + sin(phi) * l3ee
+        print("---\nIK J3 pos:\n", x_3, y_3)
+        l3ee_ik = sqrt((x_3 - x_proj)**2 + (y_3 - y_proj)**2)
+        print("---\nIK l3ee error pos:\n",l3ee_ik - l3ee)
+        x_1 = l01y
+        y_1 = lab0 + l01x
+        print("---\nIK J1 pos:\n", x_1, y_1)
+        l13 = sqrt((x_3 - x_1)**2 + (y_3 - y_1)**2)
+        print("---\nIK l13 len:\n", l13)
+
+        # Calculate angles
+        self.ang1 = pi \
+                    -acos((l12**2 + l13**2 - l23**2) / (2 * l12 * l13)) \
+                    -atan((x_3 - x_1) / (y_3 - y_1))
+        self.ang2 = pi - acos((l12**2 + l23**2 - l13**2) / (2 * l12 * l23))
+        self.ang3 = pi / 2 + phi \
+                    - asin((x_3 - x_1) / l13) \
+                    - acos((l23**2 + l13**2 - l12**2) / (2 * l23 * l13))
         
+    def get_angles(self) -> list:
+        return [self.ang0, self.ang1, self.ang2, self.ang3, self.get_phi()]
+    
+    def get_phi(self) -> float:
+        locations = self.symbolic_fk_test()
+        j3 = locations["J3"]
+        ee = locations["EE"]
+        return -atan((j3['z'] - ee['z']) / 
+                    (sqrt(j3['x']**2 + j3['y']**2) \
+                     - sqrt(ee['x']**2 + ee['y']**2)))
