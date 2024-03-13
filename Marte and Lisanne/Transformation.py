@@ -1,0 +1,96 @@
+import numpy as np
+import matplotlib.pyplot as plt
+# Change: rotate around z so that link is along x
+
+
+def transform_B20(theta_0, link_B20):
+    # first -90° rotation about y axis, then theta_0 about x, I am not sure if we should take the transpose of both...? We now did only for the latter one
+    # T01y = np.array([[0,        0,      -1],
+    #                  [0,        1,      0],
+    #                  [1,        0,      0]]
+    #                 )
+    #
+    # T01Rx = np.array(([1,   0,                  0],
+    #                   [0,   np.cos(theta_0),    -np.sin(theta_0)],
+    #                   [0,   np.sin(theta_0),    np.cos(theta_0)])
+    #                  )
+    # TB01R = T01y @ T01Rx
+    #
+    # T01 = np.vstack(
+    #     [T01R, [0, 0, 0]]
+    # )
+    #
+    # T01 = np.hstack(
+    #     [T01, [[link_021],
+    #            [0],
+    #            [0],
+    #            [1]]
+    #      ]
+    # )
+
+    TB0 = np.array([[0,     -np.sin(theta_0),   -np.cos(theta_0),   0],
+                    [0,     np.cos(theta_0),    -np.sin(theta_0),   0],
+                    [1,     0,                  0,                  link_B20],
+                    [0,     0,                  0,                  1]]
+                   )
+    return TB0
+
+
+def transform_021(theta_1, link_021):
+    # First 90° around y, then theta_1 around x, same here, we only transpose the second matrix
+    T01y = np.array([[0,        0,      1],
+                     [0,        1,      0],
+                     [-1,       0,      0]]
+                    )
+
+    T01Rx = np.array(([1,       0,      0],
+                     [0,        np.cos(theta_1),    -np.sin(theta_1)],
+                     [0,        np.sin(theta_1),    np.cos(theta_1)])
+                    )
+    T01R = T01y @ T01Rx
+
+    # add position:
+    T01 = np.vstack(
+        [T01R, [0, 0, 0]]
+    )
+
+    T01 = np.hstack(
+        [T01,  [[link_021],
+                [0],
+                [0],
+                [1]]
+         ]
+    )
+    return T01
+
+
+def transform_122(theta_2, link_122):
+    # rotate about y axis with theta_2
+
+    T12 = np.array([[1,     0,                  0,                  0],
+                    [0,     np.cos(theta_2),      -np.sin(theta_2),     0],
+                    [0,     np.sin(theta_2),      np.cos(theta_2),      link_122],
+                    [0,     0,                  0,                  1]]
+                   )
+    return T12
+
+
+def transform_223(theta_3, link_223):
+    # rotate about y axis with theta_3
+
+    T23 = np.array([[1,     0,                  0,                  0],
+                    [0,     np.cos(theta_3),    -np.sin(theta_3),   0],
+                    [0,     np.sin(theta_3),    np.cos(theta_3),    link_223],
+                    [0,     0,                  0,                  1]]
+                   )
+    return T23
+
+
+def transform_32EE(theta_4, link_32EE):
+    T34 = np.array([[1,     0,                  0,                  0],
+                    [0,     np.cos(theta_4),    -np.sin(theta_4),   0],
+                    [0,     np.sin(theta_4),    np.cos(theta_4),    link_32EE],
+                    [0,     0,                  0,                  1]]
+                   )
+    return T34
+
