@@ -41,20 +41,21 @@ def vertical_projection(x_global_ee, y_global_ee, z_global_ee):
 def try_EE_position(position, joint_limited=True):
     global th0_min, th1_min, th2_min, th3_min, th0_max, th1_max, th2_max, th3_max
 
-    # iterate through orientations of EE gripper with respect to the horizontal, start with horizontal alignment
-    for thEE in rad(np.linspace(0, 360, 1)):
-
+    # iterate through orientations of EE gripper with respect to the horizontal
+    for thEE in rad(np.arange(-90, 90, 0.5)):
+        print(thEE)
         # first check for errors (position is out of workspace for non-restricted joints)
         try:
-            theta_0, theta_1, theta_2, theta_3 = joint_angles_projection(pos, thEE)
+            theta_0, theta_1, theta_2, theta_3 = joint_angles_projection(position, thEE)
 
         except:
+            print("error")
             continue
 
-        within_joint_limits = bool( th0_min <= theta_0 <= th0_max
-                                and th1_min <= theta_1 <= th1_max
-                                and th2_min <= theta_2 <= th2_max
-                                and th3_min <= theta_3 <= th3_max)
+        th0_in_limits = bool(th0_min <= theta_0 <= th0_max)
+        th1_in_limits = bool(th1_min <= theta_1 <= th1_max)
+        th2_in_limits = bool(th2_min <= theta_2 <= th2_max)
+        th3_in_limits = bool(th3_min <= theta_3 <= th3_max)
 
         # check if the angles are within their physical limits
         if within_joint_limits:
@@ -64,7 +65,7 @@ def try_EE_position(position, joint_limited=True):
         elif not joint_limited:
             # When the joints aren't restricted
             joint_plot(theta_0, theta_1, theta_2, theta_3)
-            print(f"EE position: {position} is in the robot (unrestricted) workspace!")
+            print(f"EE position: {position} is in the robot UNRESTRICTED workspace!")
             return
         else:
             continue
@@ -76,28 +77,19 @@ th0_min, th0_max = [rad(-90), rad(90)]
 th1_min, th1_max = [rad(-55), rad(90)]
 th2_min, th2_max = [rad(45), rad(150)]
 th3_min, th3_max = [rad(-80), rad(100)]
-"""
-x = 0
-y = -95*np.sin(np.pi/4)
-z = 65+95*np.sin(np.pi/4)+105+75
-thetaee = np.deg2rad(-90)
-"""
-"""
-x = 0 #-y
-y = -105*np.sin(np.pi/4)#x
-z = 65+95+105*np.cos(np.pi/4) + 75#-z
-thetaee = np.deg2rad(-45)
-"""
-"""
-x = -242.7081528017131
-z = 74.14213562373097
-y = 0
-thetaee = np.deg2rad(45)
-"""
 
-#plt.close()
-pos = [100, -100, 100]
+plt.close()
 
+# assignment positions:
+# assume that in assignment they take positive y value away from pcb
+# position 1
+pos1 = [100, -100, 100]
+# position 2
+pos2 = [200, -100, 300]
+# position 3
+pos3 = [0, 0, 300]
+# position 4
+pos4 = [0, 0, 70]
 
-try_EE_position(pos, False)
+try_EE_position(pos1, True)
 

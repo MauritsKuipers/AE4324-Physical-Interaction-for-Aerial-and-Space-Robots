@@ -83,7 +83,7 @@ def robot_plot(th0, th1, th2, th3, thEE, xy_only=True):
 
 ###################################################
 # INPUTS:
-plot_2D = True
+plot_2D = False
 
 th0_min, th0_max = [rad(-90), rad(90)]
 th1_min, th1_max = [rad(-55), rad(90)]
@@ -166,7 +166,7 @@ else:
     zs = EE_position_max_list[:,2]
 
     ax.scatter(xs, ys, zs)
-    ax.scatter(100,100,100, color="red")
+    ax.scatter(100,-100,100, color="red")
 
 ###################################################
 # MIN REACH:

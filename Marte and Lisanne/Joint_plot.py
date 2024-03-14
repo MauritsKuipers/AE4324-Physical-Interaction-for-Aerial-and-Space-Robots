@@ -49,11 +49,43 @@ def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
     ax.set_ylabel('y')
     ax.set_zlabel('z')
 
-    # for scaling the robot in space properly:
-    ax.set_xlim3d(-300, 300)
-    ax.set_ylim3d(-300, 300)
-    ax.set_zlim3d(0, 600)
+    # plot axis limits:
+    all_joint_positions = xs + ys + zs
+    margin = 1.1
+    lim = max([abs(element) for element in all_joint_positions]) * margin
+
+    # for scaling the robot in space properly (z = 0 always ground):
+    ax.set_xlim3d(-lim, lim)
+    ax.set_ylim3d(-lim, lim)
+    ax.set_zlim3d(0, 2*lim)
+
+    # Add target EE position (for inverse kinematics verification)
     if EE_plot_pos:
         x, y, z = EE_plot_pos
         ax.scatter(x, y, z, color="red")
     plt.show()
+    print(EE_pos)
+"""
+t0 = np.deg2rad(45)
+t1 = np.deg2rad(-13.1)
+t2 = np.deg2rad(136.3)
+t3 = np.pi/2 - t2 - t1
+
+
+L1 = 95
+L2 = 105
+new_t1 = t1 + 2 * L2 * np.arcsin(np.sin(t2)/np.sqrt(L1**2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
+joint_plot(t0, new_t1,    -t2,    -t3, [100,-100,100])
+joint_plot(t0, t1,          t2,     t3, [100,-100,100])
+"""
+
+t0 = np.deg2rad(0)
+t1 = np.deg2rad(30)
+t2 = np.deg2rad(45)
+t3 = np.pi/2 - t2 - t1
+
+L1 = 95
+L2 = 105
+new_t1 = t1 + 2 * L2 * np.arcsin(np.sin(t2)/np.sqrt(L1**2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
+joint_plot(t0, new_t1,    -t2,    -t3)
+joint_plot(t0, t1,          t2,     t3)
