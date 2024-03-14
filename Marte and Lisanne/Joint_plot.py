@@ -2,16 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Transformation import transform_B20, transform_021, transform_122, transform_223, transform_32EE
 
-# joint angles:
-theta0 = 1.5707963267948966
-theta1 = 1.9543075109105532
-theta2 = 1.287576522066605
-theta3 = -0.8856895427848133
-thetaEE = np.deg2rad(0)                  # not visible as it only rotates the frame "inside" EE
-
 def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
     # vector to be multiplied:
     vector = np.matrix([[0], [0], [0], [1]])
+
+    thetaEE = 0     # doesn't matter just math idk
 
     # joint positions:
     j0_pos = (transform_B20(theta0, 45) @ vector)
