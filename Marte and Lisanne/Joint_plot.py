@@ -64,20 +64,26 @@ def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
         x, y, z = EE_plot_pos
         ax.scatter(x, y, z, color="red")
     plt.show()
-    print(EE_pos)
+
 """
+thEE = 0.2
+
 t0 = np.deg2rad(45)
 t1 = np.deg2rad(-13.1)
 t2 = np.deg2rad(136.3)
-t3 = np.pi/2 - t2 - t1
+t3 = np.pi/2 - t2 - t1 + thEE
 
 
 L1 = 95
 L2 = 105
-new_t1 = t1 + 2 * L2 * np.arcsin(np.sin(t2)/np.sqrt(L1**2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
-joint_plot(t0, new_t1,    -t2,    -t3, [100,-100,100])
+
+new_t1 = t1 + 2 * np.arcsin(L2 * np.sin(t2)/np.sqrt(L1 ** 2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
+new_t2 = -t2
+new_t3 = np.pi/2 - new_t2 - new_t1 + thEE
+
+joint_plot(t0, new_t1,    new_t2,    new_t3, [100,-100,100])
 joint_plot(t0, t1,          t2,     t3, [100,-100,100])
-"""
+
 
 t0 = np.deg2rad(0)
 t1 = np.deg2rad(30)
@@ -86,6 +92,27 @@ t3 = np.pi/2 - t2 - t1
 
 L1 = 95
 L2 = 105
-new_t1 = t1 + 2 * L2 * np.arcsin(np.sin(t2)/np.sqrt(L1**2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
-joint_plot(t0, new_t1,    -t2,    t2+t3)
+
+new_t1 = t1 + 2 * np.arcsin(L2 * np.sin(t2)/np.sqrt(L1 ** 2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
 joint_plot(t0, t1,          t2,     t3)
+joint_plot(t0, new_t1,    -t2,    t2+t3)
+
+"""
+"""
+# position 0
+thEE = np.deg2rad(-22.5)
+t0 = np.deg2rad(45.0)
+t1 = np.deg2rad(8.642056090275144)
+t2 = np.deg2rad(137.92191395073752)
+t3 = np.deg2rad(-79.06397004101265)
+
+L1 = 95
+L2 = 105
+
+new_t1 = t1 + 2 * np.arcsin(L2 * np.sin(t2)/np.sqrt(L1 ** 2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
+new_t2 = -t2
+new_t3 = np.pi/2 - new_t2 - new_t1 + thEE
+
+joint_plot(t0, new_t1,    new_t2,    new_t3, [100,-100,100])
+joint_plot(t0, t1,          t2,     t3, [100,-100,100])
+"""

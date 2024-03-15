@@ -21,6 +21,9 @@ def joint_angles_projection(ee_position, theta_ee):
     z_3 = z_ee + L_3ee * np.sin(theta_ee)  # [mm]
     L_13 = np.sqrt(z_3 ** 2 + x_3 ** 2)  # [mm]
 
+    if L_13 > (L_12 + L_23):
+        raise ValueError
+
     theta_1 = np.arccos((L_12 ** 2 + L_13 ** 2 - L_23 ** 2) / (2 * L_12 * L_13)) + np.arctan2(z_3, x_3) - np.pi / 2
 
     alpha_2 = np.arccos((L_12 ** 2 + L_23 ** 2 - L_13 ** 2) / (2 * L_12 * L_23))  # [rad]
@@ -43,24 +46,55 @@ def try_EE_position(position, joint_limited=True):
 
     # iterate through orientations of EE gripper with respect to the horizontal
     for thEE in rad(np.arange(-90, 90, 0.5)):
-        print(thEE)
         # first check for errors (position is out of workspace for non-restricted joints)
         try:
             theta_0, theta_1, theta_2, theta_3 = joint_angles_projection(position, thEE)
 
         except:
-            print("error")
             continue
 
+        # check if the angles are within their physical limits
         th0_in_limits = bool(th0_min <= theta_0 <= th0_max)
         th1_in_limits = bool(th1_min <= theta_1 <= th1_max)
         th2_in_limits = bool(th2_min <= theta_2 <= th2_max)
         th3_in_limits = bool(th3_min <= theta_3 <= th3_max)
 
-        # check if the angles are within their physical limits
+        # todo: easier way and quicker way of writing this
+        if not th0_in_limits:
+            # no way of fixing this
+            within_joint_limits = False
+        elif not th1_in_limits or not th2_in_limits or not th3_in_limits:
+            # check elbow up / down is within the limits
+            L1 = 95
+            L2 = 105
+
+            theta_1_new = theta_1 + 2 * np.arcsin(L2 * np.sin(theta_2)/np.sqrt(L1 ** 2 + L2 ** 2 + 2 * L1 * L2 * np.cos(theta_2)))
+            theta_2_new = -theta_2
+            theta_3_new = np.pi/2 - theta_2_new - theta_1_new + thEE
+
+            if (th1_min <= theta_1_new <= th1_max and th2_min <= theta_2_new <= th2_max and th3_min <= theta_3_new <= th3_max):
+
+                theta_1 = theta_1_new
+                theta_2 = theta_2_new
+                theta_3 = theta_3_new
+
+                within_joint_limits = True
+            else:
+                # reversing the elbow didn't get it within limits, so the position is not reachable with joint limits
+                within_joint_limits = False
+        else:
+            # this means all angles are within limits at first try (no need for elbow reversal)
+            within_joint_limits = True
+
+        # Plot the robot (or not) and output if the plot is plotting a constrained or unconstrained robot.
         if within_joint_limits:
             joint_plot(theta_0, theta_1, theta_2, theta_3)
             print(f"EE position: {position} is in the robot workspace!")
+            print(f"theta_EE: {np.rad2deg(thEE)} \n"
+                  f"theta_0: {np.rad2deg(theta_0)} \n"
+                  f"theta_1: {np.rad2deg(theta_1)} \n"
+                  f"theta_2: {np.rad2deg(theta_2)} \n"
+                  f"theta_3: {np.rad2deg(theta_3)}")
             return
         elif not joint_limited:
             # When the joints aren't restricted
