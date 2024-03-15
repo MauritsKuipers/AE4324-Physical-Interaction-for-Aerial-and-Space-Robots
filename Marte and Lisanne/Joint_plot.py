@@ -87,5 +87,5 @@ t3 = np.pi/2 - t2 - t1
 L1 = 95
 L2 = 105
 new_t1 = t1 + 2 * L2 * np.arcsin(np.sin(t2)/np.sqrt(L1**2 + L2 ** 2 + 2 * L1 * L2 * np.cos(t2)))
-joint_plot(t0, new_t1,    -t2,    -t3)
+joint_plot(t0, new_t1,    -t2,    t2+t3)
 joint_plot(t0, t1,          t2,     t3)
