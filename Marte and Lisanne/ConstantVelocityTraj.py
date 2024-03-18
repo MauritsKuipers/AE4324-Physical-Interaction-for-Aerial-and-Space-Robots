@@ -1,5 +1,5 @@
 import numpy as np
-
+from Transformation import transform_ee2ground
 
 def inverse_jacobian(theta_0: float, theta_1: float, theta_2: float, theta_3: float):
     L12 = 95  # [mm]
@@ -48,6 +48,8 @@ def constant_speed_trajectory(velocity: np.ndarray, initial_state: dict):
         track["theta_1"].append(theta_1 + float(joint_velocities[1,0]) * dt)
         track["theta_2"].append(theta_2 + float(joint_velocities[2,0]) * dt)
         track["theta_3"].append(theta_3 + float(joint_velocities[3,0]) * dt)
+
+        
 
     return track
 
