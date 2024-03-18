@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 # Change: rotate around z so that link is along x
+import sympy as sm
 
 
 def transform_B20(theta_0, link_B20):
@@ -96,18 +97,33 @@ def transform_32EE(theta_4, link_32EE):
 
 def jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
     jacobian = np.array([[(L12*np.sin(theta_1) + L23*np.sin(theta_1 + theta_2) + L3ee*np.sin(theta_1 + theta_2 + theta_3))*np.cos(theta_0) ,
- (L12*np.cos(theta_1) + L23*np.cos(theta_1 + theta_2) + L3ee*np.cos(theta_1 + theta_2 + theta_3))*np.sin(theta_0),
- (L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.sin(theta_0) ,
-(L3ee*np.cos(theta_1+theta_2+theta_3))*np.sin(theta_0)],
-
-[(L12*np.sin(theta_1) + L23*np.sin(theta_1+theta_2) + L3ee*np.sin(theta_1+theta_2+theta_3))*np.sin(theta_0) ,
- (L12*np.cos(theta_1) + L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0) ,
- -(L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0) ,
--(L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0)],
-
-[0 ,
- -L12*np.sin(theta_1) - L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3),
- -L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3) ,
- - L3ee*np.sin(theta_1+theta_2+theta_3)]]
-                   )
+                          (L12*np.cos(theta_1) + L23*np.cos(theta_1 + theta_2) + L3ee*np.cos(theta_1 + theta_2 + theta_3))*np.sin(theta_0),
+                          (L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.sin(theta_0) ,
+                          (L3ee*np.cos(theta_1+theta_2+theta_3))*np.sin(theta_0)],
+                         [(L12*np.sin(theta_1) + L23*np.sin(theta_1+theta_2) + L3ee*np.sin(theta_1+theta_2+theta_3))*np.sin(theta_0) ,
+                          (L12*np.cos(theta_1) + L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0) ,
+                          -(L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0) ,
+                          -(L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0)],
+                         [0 ,
+                          -L12*np.sin(theta_1) - L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3),
+                          -L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3) ,
+                          - L3ee*np.sin(theta_1+theta_2+theta_3)]])
     return jacobian
+
+def sm_jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
+    jacobian = sm.Matrix([[(L12*sm.sin(theta_1) + L23*sm.sin(theta_1 + theta_2) + L3ee*sm.sin(theta_1 + theta_2 + theta_3))*sm.cos(theta_0) ,
+                          (L12*sm.cos(theta_1) + L23*sm.cos(theta_1 + theta_2) + L3ee*sm.cos(theta_1 + theta_2 + theta_3))*sm.sin(theta_0),
+                          (L23*sm.cos(theta_1+theta_2) + L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.sin(theta_0) ,
+                          (L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.sin(theta_0)],
+                         [(L12*sm.sin(theta_1) + L23*sm.sin(theta_1+theta_2) + L3ee*sm.sin(theta_1+theta_2+theta_3))*sm.sin(theta_0) ,
+                          (L12*sm.cos(theta_1) + L23*sm.cos(theta_1+theta_2) + L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.cos(theta_0) ,
+                          -(L23*sm.cos(theta_1+theta_2) + L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.cos(theta_0) ,
+                          -(L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.cos(theta_0)],
+                         [0 ,
+                          -L12*sm.sin(theta_1) - L23*sm.sin(theta_1+theta_2) - L3ee*sm.sin(theta_1+theta_2+theta_3),
+                          -L23*sm.sin(theta_1+theta_2) - L3ee*sm.sin(theta_1+theta_2+theta_3) ,
+                          - L3ee*sm.sin(theta_1+theta_2+theta_3)]])
+    inv_jacobian = sm.Inverse(sm.Transpose(jacobian)*jacobian)*sm.Transpose(jacobian)
+    return jacobian, inv_jacobian
+
+
