@@ -124,6 +124,8 @@ pos2 = [200, -100, 300]
 pos3 = [0, 0, 300]
 # position 4
 pos4 = [0, 0, 70]
+#
+pos5 = [0, -150, 50]
 
-try_EE_position(pos1, True)
+try_EE_position(pos5, True)
 
