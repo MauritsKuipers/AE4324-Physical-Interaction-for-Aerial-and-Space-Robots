@@ -94,6 +94,10 @@ def transform_32EE(theta_4, link_32EE):
                     [0,     0,                  0,                  1]]
                    )
     return T34
+def transform_ee2ground(theta_0, theta_1, theta_2, theta_3):
+    Tee2ground = transform_B20(theta_0, 45)@ transform_021(theta_1, 20) @ transform_122(theta_2, 95) @ transform_223(theta_3, 105) @ transform_32EE(theta_3, 75)
+    return Tee2ground
+
 
 def jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
     jacobian = np.array([[(L12*np.sin(theta_1) + L23*np.sin(theta_1 + theta_2) + L3ee*np.sin(theta_1 + theta_2 + theta_3))*np.cos(theta_0) ,
