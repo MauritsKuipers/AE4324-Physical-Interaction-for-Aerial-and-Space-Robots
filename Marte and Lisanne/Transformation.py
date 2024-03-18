@@ -111,7 +111,7 @@ def jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
     return jacobian
 
 def sm_jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
-    jacobian = sm.matrix([[(L12*sm.sin(theta_1) + L23*sm.sin(theta_1 + theta_2) + L3ee*sm.sin(theta_1 + theta_2 + theta_3))*sm.cos(theta_0) ,
+    jacobian = sm.Matrix([[(L12*sm.sin(theta_1) + L23*sm.sin(theta_1 + theta_2) + L3ee*sm.sin(theta_1 + theta_2 + theta_3))*sm.cos(theta_0) ,
                           (L12*sm.cos(theta_1) + L23*sm.cos(theta_1 + theta_2) + L3ee*sm.cos(theta_1 + theta_2 + theta_3))*sm.sin(theta_0),
                           (L23*sm.cos(theta_1+theta_2) + L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.sin(theta_0) ,
                           (L3ee*sm.cos(theta_1+theta_2+theta_3))*sm.sin(theta_0)],
@@ -123,4 +123,7 @@ def sm_jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
                           -L12*sm.sin(theta_1) - L23*sm.sin(theta_1+theta_2) - L3ee*sm.sin(theta_1+theta_2+theta_3),
                           -L23*sm.sin(theta_1+theta_2) - L3ee*sm.sin(theta_1+theta_2+theta_3) ,
                           - L3ee*sm.sin(theta_1+theta_2+theta_3)]])
-    return jacobian
+    inv_jacobian = sm.Inverse(sm.Transpose(jacobian)*jacobian)*sm.Transpose(jacobian)
+    return jacobian, inv_jacobian
+
+
