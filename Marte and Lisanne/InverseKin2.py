@@ -106,26 +106,26 @@ def try_EE_position(position, joint_limited=True):
 
     print(f"EE position: {position} is NOT in the robot workspace... :(")
 
+if __name__ == "__main__":
+    th0_min, th0_max = [rad(-90), rad(90)]
+    th1_min, th1_max = [rad(-55), rad(90)]
+    th2_min, th2_max = [rad(45), rad(150)]
+    th3_min, th3_max = [rad(-80), rad(100)]
 
-th0_min, th0_max = [rad(-90), rad(90)]
-th1_min, th1_max = [rad(-55), rad(90)]
-th2_min, th2_max = [rad(45), rad(150)]
-th3_min, th3_max = [rad(-80), rad(100)]
+    plt.close()
 
-plt.close()
+    # assignment positions:
+    # assume that in assignment they take positive y value away from pcb
+    # position 1
+    pos1 = [100, -100, 100]
+    # position 2
+    pos2 = [200, -100, 300]
+    # position 3
+    pos3 = [0, 0, 300]
+    # position 4
+    pos4 = [0, 0, 70]
+    #
+    pos5 = [0, -150, 50]
 
-# assignment positions:
-# assume that in assignment they take positive y value away from pcb
-# position 1
-pos1 = [100, -100, 100]
-# position 2
-pos2 = [200, -100, 300]
-# position 3
-pos3 = [0, 0, 300]
-# position 4
-pos4 = [0, 0, 70]
-#
-pos5 = [0, -150, 50]
-
-try_EE_position(pos5, True)
+    try_EE_position(pos5, True)
 

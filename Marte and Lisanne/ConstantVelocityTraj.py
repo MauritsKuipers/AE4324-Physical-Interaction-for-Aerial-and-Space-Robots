@@ -17,11 +17,11 @@ def inverse_jacobian(theta_0: float, theta_1: float, theta_2: float, theta_3: fl
                         [0 ,
                         -L12*np.sin(theta_1) - L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3),
                         -L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3) ,
-                        - L3ee*np.sin(theta_1+theta_2+theta_3)]])
+                        - L3ee*np.sin(theta_1+theta_2+theta_3)]], dtype=np.double)
     print("Jacobian:\n", jacobian)
-    print("Jacobian Mult Det:\n", np.linalg.det(np.transpose(jacobian)*jacobian))
-    inv_jacobian = np.linalg.inv(np.transpose(jacobian)@jacobian)@np.transpose(jacobian)
-    print("Inv transpose:\n", inv_jacobian)
+    print("Jac mult:\n", np.round(np.transpose(jacobian)@jacobian, 6))
+    inv_jacobian = np.linalg.inv(np.round(np.transpose(jacobian)@jacobian, 6))@np.transpose(jacobian)
+    print("Inv_jacobian:\n", inv_jacobian)
     return inv_jacobian
 
 def constant_speed_trajectory(velocity: np.ndarray, initial_state: dict):
@@ -39,6 +39,7 @@ def constant_speed_trajectory(velocity: np.ndarray, initial_state: dict):
         theta_1 = track["theta_1"][-1]
         theta_2 = track["theta_2"][-1]
         theta_3 = track["theta_3"][-1]
+        print("time:\n", t)
         print("theta_1:\n", track["theta_1"])
         joint_velocities = inverse_jacobian(theta_0, theta_1, theta_2, theta_3) * velocity
         print("Joint velocities:\n", joint_velocities)
@@ -62,6 +63,6 @@ if __name__ == "__main__":
         "theta_3": np.deg2rad(-48)
     }
 
-    velocity = np.array([[0], [0], [10]])
+    velocity = np.array([[0], [10], [0]])
 
     print(constant_speed_trajectory(velocity, initial_state))
