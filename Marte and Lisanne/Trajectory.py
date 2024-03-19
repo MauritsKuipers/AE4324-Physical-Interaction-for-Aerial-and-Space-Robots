@@ -5,17 +5,17 @@ import matplotlib.pyplot as plt
 
 def trajectory_positions():
     # a circle discretized into 20 points
-    angles = np.linspace(0,360,5)
+    angles = np.linspace(0,360,3)
 
     # the ee positions
     x = []
     y = []
     z = []
 
-    radius = 20
+    radius = 50
     for i in angles:
         x.append(radius + radius*np.cos(i*np.pi/180))
-        y.append(50)
+        y.append(0)
         z.append(radius + radius*np.sin(i*np.pi/180))
 
     # plotting the points to check the shape

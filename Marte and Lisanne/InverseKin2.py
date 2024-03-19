@@ -128,7 +128,7 @@ if __name__ == "__main__":
     #
     pos5 = [0, -150, 50]
 
-    try_EE_position(pos5, True)
+    #try_EE_position(pos5, True)
 
 def trajectory_joint_angles(xyz_positions):
     x = xyz_positions[0]
