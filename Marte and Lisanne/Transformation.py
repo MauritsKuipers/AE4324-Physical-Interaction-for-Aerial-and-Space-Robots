@@ -128,7 +128,7 @@ def sm_jacobian(theta_0, theta_1, theta_2, theta_3, L12, L23, L3ee):
                           -L23*sm.sin(theta_1+theta_2) - L3ee*sm.sin(theta_1+theta_2+theta_3) ,
                           - L3ee*sm.sin(theta_1+theta_2+theta_3)]])
     print("Jacobian:\n", jacobian)
-    jacobian_tranaspose = sm.Transpose(jacobian)
-    print("Jacobian transpose:\n", jacobian_tranaspose)
+    jacobian_transpose = sm.Transpose(jacobian)
+    print("Jacobian transpose:\n", jacobian_transpose)
     inv_jacobian = sm.Inverse(sm.Transpose(jacobian)*jacobian)*sm.Transpose(jacobian)
     return jacobian, inv_jacobian

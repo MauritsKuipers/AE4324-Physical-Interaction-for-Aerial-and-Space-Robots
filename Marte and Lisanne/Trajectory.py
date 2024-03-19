@@ -3,19 +3,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# a circle discretized into 20 points
-angles = np.linspace(0,360,20)
+def trajectory_positions():
+    # a circle discretized into 20 points
+    angles = np.linspace(0,360,5)
 
-# the ee positions
-x = []
-y = []
-z = []
-for i in angles:
-    x.append(50 + 50*np.cos(i*np.pi/180))
-    y.append(0)
-    z.append(50 + 50*np.sin(i*np.pi/180))
+    # the ee positions
+    x = []
+    y = []
+    z = []
 
-# plotting the points to chech the shape
-plt.scatter(x,z)
-plt.show()
+    radius = 20
+    for i in angles:
+        x.append(radius + radius*np.cos(i*np.pi/180))
+        y.append(50)
+        z.append(radius + radius*np.sin(i*np.pi/180))
+
+    # plotting the points to check the shape
+    plt.scatter(x,z)
+    plt.show()
+    return [x,y,z]
 

@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Joint_plot import joint_plot
+from Trajectory import trajectory_positions
 
 def rad(angle_in_deg):
     return np.deg2rad(angle_in_deg)
@@ -129,3 +130,13 @@ if __name__ == "__main__":
 
     try_EE_position(pos5, True)
 
+def trajectory_joint_angles(xyz_positions):
+    x = xyz_positions[0]
+    y = xyz_positions[1]
+    z = xyz_positions[2]
+    for i in range(len(x)):
+        print('position', i)
+        try_EE_position([x[i], y[i], z[i]], True)
+
+
+trajectory_joint_angles(trajectory_positions())

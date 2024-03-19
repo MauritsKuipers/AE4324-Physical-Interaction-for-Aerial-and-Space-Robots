@@ -60,6 +60,6 @@ if __name__ == "__main__":
         "theta_3": np.deg2rad(-48)
     }
 
-    velocity = np.array([[0], [0], [10]])
+    velocity = np.array([[1], [1], [1]])
 
     print(constant_speed_trajectory(velocity, initial_state))
