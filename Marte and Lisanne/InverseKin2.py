@@ -89,19 +89,20 @@ def try_EE_position(position, joint_limited=True):
 
         # Plot the robot (or not) and output if the plot is plotting a constrained or unconstrained robot.
         if within_joint_limits:
-            joint_plot(theta_0, theta_1, theta_2, theta_3)
-            print(f"EE position: {position} is in the robot workspace!")
-            print(f"theta_EE: {np.rad2deg(thEE)} \n"
-                  f"theta_0: {np.rad2deg(theta_0)} \n"
-                  f"theta_1: {np.rad2deg(theta_1)} \n"
-                  f"theta_2: {np.rad2deg(theta_2)} \n"
-                  f"theta_3: {np.rad2deg(theta_3)}")
-            return
+            #joint_plot(theta_0, theta_1, theta_2, theta_3)
+
+            #print(f"EE position: {position} is in the robot workspace!")
+            #print(f"theta_EE: {np.rad2deg(thEE)} \n"
+            #      f"theta_0: {np.rad2deg(theta_0)} \n"
+            #      f"theta_1: {np.rad2deg(theta_1)} \n"
+            #      f"theta_2: {np.rad2deg(theta_2)} \n"
+            #      f"theta_3: {np.rad2deg(theta_3)}")
+            return theta_0, theta_1, theta_2, theta_3
         elif not joint_limited:
             # When the joints aren't restricted
-            joint_plot(theta_0, theta_1, theta_2, theta_3)
+            # joint_plot(theta_0, theta_1, theta_2, theta_3)
             print(f"EE position: {position} is in the robot UNRESTRICTED workspace!")
-            return
+            return theta_0, theta_1, theta_2, theta_3
         else:
             continue
 
@@ -130,13 +131,28 @@ if __name__ == "__main__":
 
     #try_EE_position(pos5, True)
 
-def trajectory_joint_angles(xyz_positions):
+def trajectory_joint_angles(xyz_positions, speed=2):
+    """ Takes list with form: [[x1, x2, ..., xn], [y1, y2, ..., yn], [z1, z2, ..., zn]]
+    and outputs corresponding joint angles with time list. """
     x = xyz_positions[0]
     y = xyz_positions[1]
     z = xyz_positions[2]
+
+    th0_list = []
+    th1_list = []
+    th2_list = []
+    th3_list = []
+
     for i in range(len(x)):
-        print('position', i)
-        try_EE_position([x[i], y[i], z[i]], True)
+        #print('position', i)
+        th0, th1, th2, th3 = try_EE_position((x[i], y[i], z[i]), True)
+        th0_list.append(th0)
+        th1_list.append(th1)
+        th2_list.append(th2)
+        th3_list.append(th3)
 
+    t = np.ndarray.tolist(np.arange(len(x)+1)[1:] * speed)
 
-trajectory_joint_angles(trajectory_positions())
+    return {"time": t, "theta_0": th0_list, "theta_1": th1_list, "theta_2": th2_list, "theta_3": th3_list}
+
+#trajectory_joint_angles(trajectory_positions())
