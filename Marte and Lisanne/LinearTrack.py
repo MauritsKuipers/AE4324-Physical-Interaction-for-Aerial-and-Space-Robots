@@ -22,7 +22,7 @@ pos = {
 }
 
 initial_state =     {
-        "theta_0": np.deg2rad(0),
+        "theta_0": np.deg2rad(-10),
         "theta_1": np.deg2rad(45),
         "theta_2": np.deg2rad(45),
         "theta_3": np.deg2rad(-30)
@@ -68,5 +68,8 @@ axs[3].set_ylabel("angles [deg]")
 axs[3].grid()
 plt.legend()
 plt.show()
+
+for i in range(len(track['theta_2'])):
+    track['theta_2'][i] = -track['theta_2'][i]
 
 print("track:\n", track)
