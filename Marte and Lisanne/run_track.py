@@ -16,19 +16,13 @@ class ExampleTraj(Node):
         self._publisher = self.create_publisher(JointTrajectory, 'joint_cmds', 10)
         timer_period = 0.06  # seconds
         self._timer = self.create_timer(timer_period, self.timer_callback)
-        self.track = {
-            'time': [0],
-            'theta_0': [np.deg2rad(90)],
-            'theta_1': [np.deg2rad(130)],
-            'theta_2': [np.deg2rad(150)],
-            'theta_3': [np.deg2rad(60)]
-        } # demo track
-        self.offset_angeles = [
+        self.track = {'time': [2], 'theta_0': [0.7853981633974483], 'theta_1': [0.15083233291732956], 'theta_2': [2.40719150909267], 'theta_3': [-1.379926596913827]}
+        self.offset_angles = [
             np.deg2rad(90),
             np.deg2rad(90),
             np.deg2rad(10),
             np.deg2rad(90),
-            0
+            0.
         ]
 
     def timer_callback(self):
@@ -41,7 +35,8 @@ class ExampleTraj(Node):
         point = JointTrajectoryPoint()
         
         user_positions = self.get_current_target_position(dt, self.track)
-        point.positions = np.subtract(user_positions, self.offset_angles)
+        print(list(np.add(user_positions + [0.], self.offset_angles)))
+        point.positions = list(np.add(user_positions + [0.], self.offset_angles))
 
         msg.points = [point]
 

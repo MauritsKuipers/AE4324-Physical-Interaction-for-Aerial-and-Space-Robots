@@ -12,12 +12,22 @@ def trajectory_positions():
     y = []
     z = []
 
-    radius = 10
+    radius = 50
+    """
     for i in angles:
-        x.append(30 + radius + radius*np.cos(i*np.pi/180))
-        y.append(0)
+        x.append(50 + radius + radius*np.cos(i*np.pi/180))
+        y.append(-100)
         z.append(30 + radius + radius*np.sin(i*np.pi/180))
-
+    """
+    x_array = np.arange(-120, 120, 5)
+    for x_value in x_array:
+        x.append(x_value)
+        z.append(np.sqrt(120**2 - x_value**2)+150)
+        y.append(-100)
+    for x_value in np.invert(x_array):
+        x.append(x_value)
+        z.append(-np.sqrt(120**2 - x_value**2)+150)
+        y.append(-100)
     # plotting the points to check the shape
     plt.scatter(x,z)
     plt.show()
