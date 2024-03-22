@@ -59,7 +59,7 @@ if __name__ == "__main__":
     initial_state =     {
         "theta_0": np.deg2rad(10),
         "theta_1": np.deg2rad(15),
-        "theta_2": np.deg2rad(135),
+        "theta_2": np.deg2rad(45),
         "theta_3": np.deg2rad(-48)
     }
 
