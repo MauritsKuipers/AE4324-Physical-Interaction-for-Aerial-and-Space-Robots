@@ -92,11 +92,11 @@ def try_EE_position(position, joint_limited=True):
             #joint_plot(theta_0, theta_1, theta_2, theta_3)
 
             #print(f"EE position: {position} is in the robot workspace!")
-            #print(f"theta_EE: {np.rad2deg(thEE)} \n"
-            #      f"theta_0: {np.rad2deg(theta_0)} \n"
-            #      f"theta_1: {np.rad2deg(theta_1)} \n"
-            #      f"theta_2: {np.rad2deg(theta_2)} \n"
-            #      f"theta_3: {np.rad2deg(theta_3)}")
+            print(f"theta_EE: {np.rad2deg(thEE)} \n"
+                  f"theta_0: {np.rad2deg(theta_0)} \n"
+                  f"theta_1: {np.rad2deg(theta_1)} \n"
+                  f"theta_2: {np.rad2deg(theta_2)} \n"
+                  f"theta_3: {np.rad2deg(theta_3)}")
             return theta_0, theta_1, theta_2, theta_3
         elif not joint_limited:
             # When the joints aren't restricted
@@ -156,3 +156,8 @@ def trajectory_joint_angles(xyz_positions, speed=2):
     return {"time": t, "theta_0": th0_list, "theta_1": th1_list, "theta_2": th2_list, "theta_3": th3_list}
 
 #trajectory_joint_angles(trajectory_positions())
+
+# try_EE_position([100, -100, 100])
+print(trajectory_joint_angles([[0], [0], [300]]))
+# {'time': [2], 'theta_0': [0.7853981633974483], 'theta_1': [0.15083233291732956], 'theta_2': [2.40719150909267], 'theta_3': [-1.379926596913827]}
+# {'time': [2], 'theta_0': [1.5707963267948966], 'theta_1': [-0.6819964922774115], 'theta_2': [1.2888814029541067], 'theta_3': [-0.6068849106766951]}
