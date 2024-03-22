@@ -24,9 +24,10 @@ class ExampleTraj(Node):
             'theta_3': [np.deg2rad(60)]
         } # demo track
         self.offset_angeles = [
-            0,
-            0,
-            0,
+            np.deg2rad(90),
+            np.deg2rad(90),
+            np.deg2rad(10),
+            np.deg2rad(90),
             0
         ]
 
