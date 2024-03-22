@@ -148,9 +148,10 @@ def trajectory_joint_angles(xyz_positions, speed=2):
         th0, th1, th2, th3 = try_EE_position((x[i], y[i], z[i]), True)
         th0_list.append(th0)
         th1_list.append(th1)
-        th2_list.append(th2)
+        # Robot flips theta 2 angle
+        th2_list.append(-th2)
         th3_list.append(th3)
-
+        # note: theta 2 also has an offset but will be added in other file
     t = np.ndarray.tolist(np.arange(len(x)+1)[1:] * speed)
 
     return {"time": t, "theta_0": th0_list, "theta_1": th1_list, "theta_2": th2_list, "theta_3": th3_list}
@@ -159,5 +160,5 @@ def trajectory_joint_angles(xyz_positions, speed=2):
 
 # try_EE_position([100, -100, 100])
 print(trajectory_joint_angles([[0], [0], [300]]))
-# {'time': [2], 'theta_0': [0.7853981633974483], 'theta_1': [0.15083233291732956], 'theta_2': [2.40719150909267], 'theta_3': [-1.379926596913827]}
-# {'time': [2], 'theta_0': [1.5707963267948966], 'theta_1': [-0.6819964922774115], 'theta_2': [1.2888814029541067], 'theta_3': [-0.6068849106766951]}
+# {'time': [2], 'theta_0': [0.7853981633974483], 'theta_1': [0.15083233291732956], 'theta_2': [-2.40719150909267], 'theta_3': [-1.379926596913827]}
+# {'time': [2], 'theta_0': [1.5707963267948966], 'theta_1': [-0.6819964922774115], 'theta_2': [-1.2888814029541067], 'theta_3': [-0.6068849106766951]}
