@@ -10,10 +10,12 @@ def inverse_jacobian(theta_0: float, theta_1: float, theta_2: float, theta_3: fl
                         (L12*np.cos(theta_1) + L23*np.cos(theta_1 + theta_2) + L3ee*np.cos(theta_1 + theta_2 + theta_3))*np.sin(theta_0),
                         (L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.sin(theta_0) ,
                         (L3ee*np.cos(theta_1+theta_2+theta_3))*np.sin(theta_0)],
+
                         [(L12*np.sin(theta_1) + L23*np.sin(theta_1+theta_2) + L3ee*np.sin(theta_1+theta_2+theta_3))*np.sin(theta_0) ,
                         (L12*np.cos(theta_1) + L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0) ,
                         -(L23*np.cos(theta_1+theta_2) + L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0) ,
                         -(L3ee*np.cos(theta_1+theta_2+theta_3))*np.cos(theta_0)],
+
                         [0 ,
                         -L12*np.sin(theta_1) - L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3),
                         -L23*np.sin(theta_1+theta_2) - L3ee*np.sin(theta_1+theta_2+theta_3) ,

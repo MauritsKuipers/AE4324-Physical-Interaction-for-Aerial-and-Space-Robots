@@ -85,10 +85,23 @@ def robot_plot(th0, th1, th2, th3, thEE, xy_only=True):
 # INPUTS:
 plot_2D = False
 
+#### Workspace with Limitations ####
+# """
 th0_min, th0_max = [rad(-90), rad(90)]
 th1_min, th1_max = [rad(-55), rad(90)]
 th2_min, th2_max = [rad(45), rad(150)]
 th3_min, th3_max = [rad(-80), rad(100)]
+# """
+
+#### Workplace without Limitations ####
+"""
+th0_min, th0_max = [rad(-180), rad(180)]
+th1_min, th1_max = [rad(-180), rad(180)]
+th2_min, th2_max = [rad(-180), rad(180)]
+th3_min, th3_max = [rad(-180), rad(180)]
+"""
+
+
 """
 th0_min, th0_max = [rad(-90), rad(90)]
 th1_min, th1_max = [rad(-180), rad(180)]
@@ -161,12 +174,25 @@ EE_position_max_list = np.array(EE_position_max_list)
 if plot_2D:
     plt.plot(EE_position_max_list[:,0], EE_position_max_list[:,1], color="r")
 else:
-    xs = EE_position_max_list[:,0]
-    ys = EE_position_max_list[:,1]
-    zs = EE_position_max_list[:,2]
+    xs = np.array(EE_position_max_list[:,0])
+    ys = np.array(EE_position_max_list[:,1])
+    zs = np.array(EE_position_max_list[:,2])
 
+    # Create a boolean mask to filter points where z is negative
+    mask = zs >= 0
+
+    # Filter xs, ys, and zs arrays using the mask
+    xs_filtered = xs[mask]
+    ys_filtered = ys[mask]
+    zs_filtered = zs[mask]
+
+    #### This has no Filter ####
     ax.scatter(xs, ys, zs)
-    ax.scatter(100,-100,100, color="red")
+    ax.scatter(100, -100, 100, color="red")
+
+    #### This Filters the Positons Acheavable that are "Under the Floor" ####
+    # ax.scatter(xs_filtered, ys_filtered, zs_filtered)
+    # ax.scatter(100,-100,100, color="red")
 
 ###################################################
 # MIN REACH:
