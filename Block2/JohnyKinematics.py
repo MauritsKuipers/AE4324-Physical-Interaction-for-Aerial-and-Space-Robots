@@ -264,13 +264,13 @@ class Johny:
             "EE": {"x": [], "y": [], "z": []},
         }
         
-        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 10):
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 40):
             self.ang0 = ang0
-            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2*pi / 10):
+            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2*pi / 20):
                 self.ang1 = ang1
-                for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2*pi / 20):
-                    self.ang0 = ang2
-                    for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 100):
+                for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2*pi / 10):
+                    self.ang2 = ang2
+                    for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 10):
                         self.ang3 = ang3
                         locations = self.get_frame_origins_in_ground_frame()
                         for key, location in locations.items():
@@ -279,6 +279,70 @@ class Johny:
                             hist[key]["z"].append(location["z"])
 
         return hist
+
+    def EE_workspace(self):
+        hist_max = {
+            "J0": {"x": [], "y": [], "z": []},
+            "J1": {"x": [], "y": [], "z": []},
+            "J2": {"x": [], "y": [], "z": []},
+            "J3": {"x": [], "y": [], "z": []},
+            "EE": {"x": [], "y": [], "z": []},
+        }
+
+        hist_min = {
+            "J0": {"x": [], "y": [], "z": []},
+            "J1": {"x": [], "y": [], "z": []},
+            "J2": {"x": [], "y": [], "z": []},
+            "J3": {"x": [], "y": [], "z": []},
+            "EE": {"x": [], "y": [], "z": []},
+        }
+
+        #### Getting the data for maximum ####
+
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 40):
+            self.ang0 = ang0
+            self.ang1 = self.joint_limits["J1"]["min"]
+            self.ang2 = self.joint_limits["J2"]["min"]
+            self.ang3 = self.joint_limits["J3"]['min']
+
+            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 40):
+                self.ang3 = ang3
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_max[key]["x"].append(location["x"])
+                    hist_max[key]["y"].append(location["y"])
+                    hist_max[key]["z"].append(location["z"])
+            # self.ang3 = self.joint_limits["J3"]['min']
+            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2 * pi / 40):
+                self.ang1 = ang1
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_max[key]["x"].append(location["x"])
+                    hist_max[key]["y"].append(location["y"])
+                    hist_max[key]["z"].append(location["z"])
+            # self.ang1 = self.joint_limits["J1"]["min"]
+            for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2 * pi / 40):
+                self.ang2 = ang2
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_max[key]["x"].append(location["x"])
+                    hist_max[key]["y"].append(location["y"])
+                    hist_max[key]["z"].append(location["z"])
+            # self.ang2 = self.joint_limits["J2"]["min"]
+            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2 * pi / 40):
+                self.ang3 = ang3
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_max[key]["x"].append(location["x"])
+                    hist_max[key]["y"].append(location["y"])
+                    hist_max[key]["z"].append(location["z"])
+            # self.ang3 = self.joint_limits["J3"]["min"]
+
+        #### Getting the data for minimum ####
+
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 5):
+            self.ang0 = ang0
+        return hist_max, hist_min
     
     def symbolic_fk_test(self):
         l01y = 0.0

@@ -31,15 +31,15 @@ for name, location in rb.symbolic_fk_test().items():
     ax.scatter3D(location["x"], location["y"], location["z"], 
                  label=name + "_sym", alpha=1, s=50)
 
-location_EE = rb.symbolic_fk_test()['EE']
-location_J3 = rb.symbolic_fk_test()['J3']
-l3ee = 0.075
-l3ee_fk = sqrt(sum((location_J3[dim] - location_EE[dim])**2 for dim in ["x", "y", "z"])) - l3ee
-
-print("---\nFK l3ee error pos:\n",l3ee_fk)
-rb.manual_ik(location_EE["x"], location_EE["y"], location_EE["z"], np.deg2rad(90))
-print("---\nInverse Angels")
-print(np.rad2deg(rb.get_angles()))
+# location_EE = rb.symbolic_fk_test()['EE']
+# location_J3 = rb.symbolic_fk_test()['J3']
+# l3ee = 0.075
+# l3ee_fk = sqrt(sum((location_J3[dim] - location_EE[dim])**2 for dim in ["x", "y", "z"])) - l3ee
+#
+# print("---\nFK l3ee error pos:\n",l3ee_fk)
+# rb.manual_ik(location_EE["x"], location_EE["y"], location_EE["z"], np.deg2rad(90))
+# print("---\nInverse Angels")
+# print(np.rad2deg(rb.get_angles()))
 
 
 for name, location in rb.symbolic_fk_test().items():
@@ -52,7 +52,7 @@ for name, location in rb.symbolic_fk_test().items():
 
 # Sweep over J0
 # for name, location in rb.sweep_over_all().items():
-    # ax.scatter3D(location["x"], location["y"], location["z"], 
+    # ax.scatter3D(location["x"], location["y"], location["z"],
     #              label=name, alpha=0.3, s=5)
 
 plt.legend()

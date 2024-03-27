@@ -131,7 +131,7 @@ if __name__ == "__main__":
     #
     pos5 = [0, -150, 50]
 
-    #try_EE_position(pos5, True)
+    try_EE_position(pos3, True)
 
 def trajectory_joint_angles(xyz_positions, speed=1):
     """ Takes list with form: [[x1, x2, ..., xn], [y1, y2, ..., yn], [z1, z2, ..., zn]]

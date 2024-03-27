@@ -189,41 +189,41 @@ else:
 
 EE_position_min_list = []
 
-for theta0 in np.linspace(theta0, theta0_end, n):
-
-    # start position:
-    theta1 = th1_min
-    theta2 = th2_min
-    theta3 = 0
-
-    # trajectory 1:
-    # robot_plot(theta0, theta1, theta2, theta3, theta4, plot_2D)
-    for theta3 in np.linspace(theta3, th3_max, 10):
-        EE_position_min_list.append(EE_pos(theta0, theta1, theta2, theta3, theta4, plot_2D))
-
-    # trajectory 2:
-    # robot_plot(theta0, theta1, theta2, theta3, theta4, plot_2D)
-    for theta2 in np.linspace(th2_min, th2_max, 30):
-        EE_position_min_list.append(EE_pos(theta0, theta1, theta2, theta3, theta4, plot_2D))
-
-    # trajectory 3:
-    # robot_plot(theta0, theta1, theta2, theta3, theta4, plot_2D)
-    for theta1 in np.linspace(th1_min, th1_max, 20):
-        EE_position_min_list.append(EE_pos(theta0, theta1, theta2, theta3, theta4, plot_2D))
-
-EE_position_min_list = np.array(EE_position_min_list)
-if plot_2D:
-    plt.plot(EE_position_min_list[:,0], EE_position_min_list[:,1], color="r")
-
-else:
-    xs = EE_position_min_list[:,0]
-    ys = EE_position_min_list[:,1]
-    zs = EE_position_min_list[:,2]
-
-    ax.scatter(xs, ys, zs)
-
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("z")
+# for theta0 in np.linspace(theta0, theta0_end, n):
+#
+#     # start position:
+#     theta1 = th1_min
+#     theta2 = th2_min
+#     theta3 = 0
+#
+#     # trajectory 1:
+#     # robot_plot(theta0, theta1, theta2, theta3, theta4, plot_2D)
+#     for theta3 in np.linspace(theta3, th3_max, 10):
+#         EE_position_min_list.append(EE_pos(theta0, theta1, theta2, theta3, theta4, plot_2D))
+#
+#     # trajectory 2:
+#     # robot_plot(theta0, theta1, theta2, theta3, theta4, plot_2D)
+#     for theta2 in np.linspace(th2_min, th2_max, 30):
+#         EE_position_min_list.append(EE_pos(theta0, theta1, theta2, theta3, theta4, plot_2D))
+#
+#     # trajectory 3:
+#     # robot_plot(theta0, theta1, theta2, theta3, theta4, plot_2D)
+#     for theta1 in np.linspace(th1_min, th1_max, 20):
+#         EE_position_min_list.append(EE_pos(theta0, theta1, theta2, theta3, theta4, plot_2D))
+#
+# EE_position_min_list = np.array(EE_position_min_list)
+# if plot_2D:
+#     plt.plot(EE_position_min_list[:,0], EE_position_min_list[:,1], color="r")
+#
+# else:
+#     xs = EE_position_min_list[:,0]
+#     ys = EE_position_min_list[:,1]
+#     zs = EE_position_min_list[:,2]
+#
+#     ax.scatter(xs, ys, zs)
+#
+#     ax.set_xlabel("x")
+#     ax.set_ylabel("y")
+#     ax.set_zlabel("z")
 
 plt.show()
