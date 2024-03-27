@@ -131,11 +131,14 @@ if __name__ == "__main__":
     #
     pos5 = [0, -150, 50]
 
-    try_EE_position(pos1, True)
-    try_EE_position(pos2, True)
-    try_EE_position(pos3, True)
-    try_EE_position(pos4, True)
-    try_EE_position(pos5, True)
+    # theta0, theta1, theta2, theta3 = try_EE_position(pos1, True)
+    # joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos1 )
+    # try_EE_position(pos2, True)
+    # try_EE_position(pos3, True)
+    theta0, theta1, theta2, theta3 = try_EE_position(pos3, True)
+    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos3)
+    # try_EE_position(pos4, True)
+    # try_EE_position(pos5, True)
 
 def trajectory_joint_angles(xyz_positions, speed=1):
     """ Takes list with form: [[x1, x2, ..., xn], [y1, y2, ..., yn], [z1, z2, ..., zn]]
@@ -162,7 +165,7 @@ def trajectory_joint_angles(xyz_positions, speed=1):
 
     return {"time": t, "theta_0": th0_list, "theta_1": th1_list, "theta_2": th2_list, "theta_3": th3_list}
 
-#trajectory_joint_angles(trajectory_positions())
+# trajectory_joint_angles(trajectory_positions())
 
 # try_EE_position([100, -100, 100])
 # {'time': [2], 'theta_0': [0.7853981633974483], 'theta_1': [0.15083233291732956], 'theta_2': [-2.40719150909267], 'theta_3': [-1.379926596913827]}
