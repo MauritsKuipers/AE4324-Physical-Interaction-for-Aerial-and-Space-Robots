@@ -122,12 +122,18 @@ if __name__ == "__main__":
     # assume that in assignment they take positive y value away from pcb
     # position 1
     pos1 = [100, -100, 100]
+    theta0, theta1, theta2, theta3 = try_EE_position(pos1, False)
+    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos1)
     # position 2
     pos2 = [200, -100, 300]
     # position 3
     pos3 = [0, 0, 300]
+    theta0, theta1, theta2, theta3 = try_EE_position(pos3, False)
+    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos3)
     # position 4
     pos4 = [0, 0, 70]
+    # theta0, theta1, theta2, theta3 = try_EE_position(pos4, False)
+    # joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos4)
     #
     pos5 = [0, -150, 50]
 
