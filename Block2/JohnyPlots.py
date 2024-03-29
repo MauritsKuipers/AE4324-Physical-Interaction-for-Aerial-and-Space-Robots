@@ -42,10 +42,10 @@ for name, location in rb.symbolic_fk_test().items():
 # print(np.rad2deg(rb.get_angles()))
 
 
-for name, location in rb.symbolic_fk_test().items():
-    # print(name, location)
-    ax.scatter3D(location["x"], location["y"], location["z"], 
-                 label=name + "_ik", alpha=1, s=50)
+# for name, location in rb.symbolic_fk_test().items():
+#     # print(name, location)
+#     ax.scatter3D(location["x"], location["y"], location["z"],
+#                  label=name + "_ik", alpha=1, s=50)
 
 # rb.manual_ik(0.2427081528017131, 0, 0.07414213562373097, np.deg2rad(45))
 # print(np.rad2deg(rb.get_angles()))

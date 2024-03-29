@@ -38,11 +38,19 @@ def homogenouse_transformation_matrix_x_rotation(theta, dx, dy, dz):
 class Johny:
     def __init__(self) -> None:
         
+        # self.joint_limits = {
+        #     "J0": {"min": np.deg2rad(-90), "max": np.deg2rad(100)},
+        #     "J1": {"min": np.deg2rad(-45), "max": np.deg2rad(70)},
+        #     "J2": {"min": np.deg2rad(15), "max": np.deg2rad(150)},
+        #     "J3": {"min": np.deg2rad(-90), "max": np.deg2rad(90)},
+        #     "EE": {"min": 0, "max": 1}
+        # }
+        ### If there were no limits on the joints ###
         self.joint_limits = {
-            "J0": {"min": np.deg2rad(-90), "max": np.deg2rad(100)},
-            "J1": {"min": np.deg2rad(-45), "max": np.deg2rad(70)},
-            "J2": {"min": np.deg2rad(15), "max": np.deg2rad(150)},
-            "J3": {"min": np.deg2rad(-90), "max": np.deg2rad(90)},
+            "J0": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J1": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J2": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J3": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
             "EE": {"min": 0, "max": 1}
         }
 
@@ -264,13 +272,13 @@ class Johny:
             "EE": {"x": [], "y": [], "z": []},
         }
         
-        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 40):
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 5):
             self.ang0 = ang0
-            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2*pi / 20):
+            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2*pi / 1):
                 self.ang1 = ang1
-                for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2*pi / 10):
+                for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2*pi / 15):
                     self.ang2 = ang2
-                    for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 10):
+                    for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 15):
                         self.ang3 = ang3
                         locations = self.get_frame_origins_in_ground_frame()
                         for key, location in locations.items():
@@ -299,13 +307,13 @@ class Johny:
 
         #### Getting the data for maximum ####
 
-        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 40):
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 25):
             self.ang0 = ang0
-            self.ang1 = self.joint_limits["J1"]["min"]
-            self.ang2 = self.joint_limits["J2"]["min"]
-            self.ang3 = self.joint_limits["J3"]['min']
+            self.ang1 = self.joint_limits["J1"]["min"]  # 0.       #
+            self.ang2 = self.joint_limits["J2"]["min"] # np.deg2rad(90) #
+            self.ang3 = self.joint_limits["J3"]['min'] # 0.          #
 
-            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 40):
+            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 25):
                 self.ang3 = ang3
                 locations = self.get_frame_origins_in_ground_frame()
                 for key, location in locations.items():
@@ -313,7 +321,7 @@ class Johny:
                     hist_max[key]["y"].append(location["y"])
                     hist_max[key]["z"].append(location["z"])
             # self.ang3 = self.joint_limits["J3"]['min']
-            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2 * pi / 40):
+            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2 * pi / 25):
                 self.ang1 = ang1
                 locations = self.get_frame_origins_in_ground_frame()
                 for key, location in locations.items():
@@ -321,7 +329,7 @@ class Johny:
                     hist_max[key]["y"].append(location["y"])
                     hist_max[key]["z"].append(location["z"])
             # self.ang1 = self.joint_limits["J1"]["min"]
-            for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2 * pi / 40):
+            for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2 * pi / 25):
                 self.ang2 = ang2
                 locations = self.get_frame_origins_in_ground_frame()
                 for key, location in locations.items():
@@ -329,7 +337,7 @@ class Johny:
                     hist_max[key]["y"].append(location["y"])
                     hist_max[key]["z"].append(location["z"])
             # self.ang2 = self.joint_limits["J2"]["min"]
-            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2 * pi / 40):
+            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2 * pi / 25):
                 self.ang3 = ang3
                 locations = self.get_frame_origins_in_ground_frame()
                 for key, location in locations.items():
@@ -340,8 +348,33 @@ class Johny:
 
         #### Getting the data for minimum ####
 
-        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 5):
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi / 25):
             self.ang0 = ang0
+            self.ang1 = self.joint_limits["J1"]["min"]
+            self.ang2 = self.joint_limits["J2"]["min"]
+            self.ang3 = 0.
+            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2*pi / 25):
+                self.ang3 = ang3
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_min[key]["x"].append(location["x"])
+                    hist_min[key]["y"].append(location["y"])
+                    hist_min[key]["z"].append(location["z"])
+            for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2 * pi / 25):
+                self.ang2 = ang2
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_min[key]["x"].append(location["x"])
+                    hist_min[key]["y"].append(location["y"])
+                    hist_min[key]["z"].append(location["z"])
+            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2 * pi / 25):
+                self.ang1 = ang1
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_min[key]["x"].append(location["x"])
+                    hist_min[key]["y"].append(location["y"])
+                    hist_min[key]["z"].append(location["z"])
+
         return hist_max, hist_min
     
     def symbolic_fk_test(self):

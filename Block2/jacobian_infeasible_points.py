@@ -69,7 +69,5 @@ if __name__ == "__main__":
     distance = np.linalg.norm(target_point - start_point)
     vdir = (target_point - start_point) / distance
     Tend = distance / vconst
-
-    # Target point [200, 100, 300]
-
-    print(constant_speed_trajectory(vdir.reshape(-1, 1), initial_state, Tend))
+    print(Tend)
+    #print(constant_speed_trajectory(vdir.reshape(-1, 1), initial_state, Tend))
