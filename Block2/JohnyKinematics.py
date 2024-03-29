@@ -1,5 +1,6 @@
 import numpy as np
 from math import cos, sin, pi, sqrt, acos, asin, atan
+import matplotlib.pyplot as plt
 
 def rotation_around_z_matrix(theta):
     '''Rotation matrix arround the z axis'''
@@ -38,27 +39,34 @@ def homogenouse_transformation_matrix_x_rotation(theta, dx, dy, dz):
 class Johny:
     def __init__(self) -> None:
         
-        # self.joint_limits = {
-        #     "J0": {"min": np.deg2rad(-90), "max": np.deg2rad(100)},
-        #     "J1": {"min": np.deg2rad(-45), "max": np.deg2rad(70)},
-        #     "J2": {"min": np.deg2rad(15), "max": np.deg2rad(150)},
-        #     "J3": {"min": np.deg2rad(-90), "max": np.deg2rad(90)},
-        #     "EE": {"min": 0, "max": 1}
-        # }
-        ### If there were no limits on the joints ###
         self.joint_limits = {
-            "J0": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
-            "J1": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
-            "J2": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
-            "J3": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J0": {"min": np.deg2rad(-90), "max": np.deg2rad(100)},
+            "J1": {"min": np.deg2rad(-45), "max": np.deg2rad(70)},
+            "J2": {"min": np.deg2rad(15), "max": np.deg2rad(150)},
+            "J3": {"min": np.deg2rad(-90), "max": np.deg2rad(90)},
             "EE": {"min": 0, "max": 1}
         }
+        ### If there were no limits on the joints ###
+        # self.joint_limits = {
+        #     "J0": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+        #     "J1": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+        #     "J2": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+        #     "J3": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+        #     "EE": {"min": 0, "max": 1}
+        # }
 
         # set angeles to home position
         self.ang0 = 0
         self.ang1 = 0
         self.ang2 = np.deg2rad(90)
         self.ang3 = 0
+
+    def set_joint_angles(self, theta0, theta1, theta2, theta3):
+        # Set joint angles
+        self.theta0 = theta0
+        self.theta1 = theta1
+        self.theta2 = theta2
+        self.theta3 = theta3
 
     def AB_to_ground_matrix(self):
         return homogenouse_transformation_matrix_x_rotation(np.deg2rad(90), 0, 0, 0)@homogenouse_transformation_matrix_z_rotation(np.deg2rad(-90), 0, 0, 0)
@@ -376,7 +384,7 @@ class Johny:
                     hist_min[key]["z"].append(location["z"])
 
         return hist_max, hist_min
-    
+
     def symbolic_fk_test(self):
         l01y = 0.0
         l01x = 0.01
@@ -482,3 +490,33 @@ class Johny:
         return -atan((j3['z'] - ee['z']) / 
                     (sqrt(j3['x']**2 + j3['y']**2) \
                      - sqrt(ee['x']**2 + ee['y']**2)))
+
+    def joint_plot_3d(self):
+        """
+        Visualize the robotic arm based on its current joint angles in 3D.
+        """
+        # Define link lengths
+        link_lengths = [0.05, 0.01, 0.095, 0.1025, 0.075]
+
+        # Compute joint positions in ground frame
+        joint_positions = self.get_frame_origins_in_ground_frame()
+
+        # Extract joint coordinates
+        x = [joint_positions[joint]["x"] for joint in joint_positions]
+        y = [joint_positions[joint]["y"] for joint in joint_positions]
+        z = [joint_positions[joint]["z"] for joint in joint_positions]
+
+        # Plot the arm in 3D
+        fig = plt.figure(figsize=(8, 6))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot(x, y, z, 'bo-', lw=2, markersize=8)
+        ax.plot([x[-1]], [y[-1]], [z[-1]], 'ro', markersize=10)  # End-effector position
+        ax.set_xlim([-0.2, 0.2])
+        ax.set_ylim([-0.2, 0.2])
+        ax.set_zlim([0, 0.4])  # Adjust the z-limit as per your requirement
+        ax.set_xlabel('X (m)')
+        ax.set_ylabel('Y (m)')
+        ax.set_zlabel('Z (m)')
+        ax.set_title('Robotic Arm Configuration (3D)')
+        plt.grid(True)
+        plt.show()
