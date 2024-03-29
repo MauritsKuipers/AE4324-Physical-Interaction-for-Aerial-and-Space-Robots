@@ -331,8 +331,33 @@ class Johny:
                     hist_max[key]["x"].append(location["x"])
                     hist_max[key]["y"].append(location["y"])
                     hist_max[key]["z"].append(location["z"])
-
-
+        #### Getting Minimumk Data ####
+        for ang0 in np.arange(self.joint_limits["J0"]["min"], self.joint_limits["J0"]["max"], 2*pi/25):
+            self.ang0 = ang0
+            self.ang1 = self.joint_limits["J1"]["min"]
+            self.ang2 = self.joint_limits["J2"]["min"]
+            self.ang3 = 0. # self.joint_limits["J3"]["min"]
+            for ang3 in np.arange(self.joint_limits["J3"]["min"], self.joint_limits["J3"]["max"], 2 * pi / 25):
+                self.ang3 = ang3
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_min[key]["x"].append(location["x"])
+                    hist_min[key]["y"].append(location["y"])
+                    hist_min[key]["z"].append(location["z"])
+            for ang2 in np.arange(self.joint_limits["J2"]["min"], self.joint_limits["J2"]["max"], 2 * pi / 25):
+                self.ang2 = ang2
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_min[key]["x"].append(location["x"])
+                    hist_min[key]["y"].append(location["y"])
+                    hist_min[key]["z"].append(location["z"])
+            for ang1 in np.arange(self.joint_limits["J1"]["min"], self.joint_limits["J1"]["max"], 2 * pi / 25):
+                self.ang1 = ang1
+                locations = self.get_frame_origins_in_ground_frame()
+                for key, location in locations.items():
+                    hist_min[key]["x"].append(location["x"])
+                    hist_min[key]["y"].append(location["y"])
+                    hist_min[key]["z"].append(location["z"])
 
 
         return hist_max, hist_min

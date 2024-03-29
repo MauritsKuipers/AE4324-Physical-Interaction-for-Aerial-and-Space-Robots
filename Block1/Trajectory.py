@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 def trajectory_positions():
     # a circle discretized into 20 points
@@ -33,3 +34,25 @@ def trajectory_positions():
     plt.show()
     return [x,y,z]
 
+if __name__ == "__main__":
+    # Get the trajectory positions
+    positions = trajectory_positions()
+
+    # Create a 3D plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Extract x, y, z coordinates
+    x, y, z = positions
+
+    # Plot the points
+    ax.scatter(x, y, z)
+
+    # Set labels and title
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    ax.set_title('Trajectory Positions')
+
+    # Show the plot
+    plt.show()

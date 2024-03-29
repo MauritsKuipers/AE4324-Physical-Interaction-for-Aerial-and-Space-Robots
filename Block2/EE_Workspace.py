@@ -20,10 +20,10 @@ ax = fig.add_subplot(111, projection="3d")
 
 ## Extract the Coordinates ##
 ee_x_max, ee_y_max, ee_z_max = zip(*ee_coordinates_max)
-# ee_x_min, ee_y_min, ee_z_min = zip(*ee_coordinates_min)
+ee_x_min, ee_y_min, ee_z_min = zip(*ee_coordinates_min)
 
 ax.scatter(ee_x_max, ee_y_max, ee_z_max, c="b", label="End Effector Points")
-# ax.scatter(ee_x_min, ee_y_min, ee_z_min, c="r", label="End Effector Points")
+ax.scatter(ee_x_min, ee_y_min, ee_z_min, c="r", label="End Effector Points")
 ax.set_xlabel("x")
 ax.set_ylabel("y")
 ax.set_zlabel("z")
