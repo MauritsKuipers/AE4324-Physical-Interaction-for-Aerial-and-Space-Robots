@@ -133,7 +133,7 @@ else:
     # end position:
     theta0_end = th0_max
     # number of times to plot theta0
-    n = 30
+    n = 1
 
 EE_position_max_list = []
 
