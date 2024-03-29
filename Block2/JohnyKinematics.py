@@ -38,11 +38,19 @@ def homogenouse_transformation_matrix_x_rotation(theta, dx, dy, dz):
 class Johny:
     def __init__(self) -> None:
         
+        # self.joint_limits = {
+        #     "J0": {"min": np.deg2rad(-90), "max": np.deg2rad(100)},
+        #     "J1": {"min": np.deg2rad(-45), "max": np.deg2rad(70)},
+        #     "J2": {"min": np.deg2rad(15), "max": np.deg2rad(150)},
+        #     "J3": {"min": np.deg2rad(-90), "max": np.deg2rad(90)},
+        #     "EE": {"min": 0, "max": 1}
+        # }
+
         self.joint_limits = {
-            "J0": {"min": np.deg2rad(-90), "max": np.deg2rad(100)},
-            "J1": {"min": np.deg2rad(-45), "max": np.deg2rad(70)},
-            "J2": {"min": np.deg2rad(15), "max": np.deg2rad(150)},
-            "J3": {"min": np.deg2rad(-90), "max": np.deg2rad(90)},
+            "J0": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J1": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J2": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
+            "J3": {"min": np.deg2rad(-180), "max": np.deg2rad(180)},
             "EE": {"min": 0, "max": 1}
         }
 
