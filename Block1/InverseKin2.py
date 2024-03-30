@@ -123,6 +123,10 @@ if __name__ == "__main__":
     # position 1
     pos1 = [100, -100, 100]
     theta0, theta1, theta2, theta3 = try_EE_position(pos1, True)
+    print("Theta0 :", theta0)
+    print("Theta1 :", theta1)
+    print("Theta2 :", theta2)
+    print("Theta3 :", theta3)
     joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos1)
     # position 2
     pos2 = [200, -100, 300]
@@ -130,16 +134,16 @@ if __name__ == "__main__":
     # joint_plot(theta0, theta1, theta2, theta3)
     # position 3
     pos3 = [0, 0, 300]
-    theta0, theta1, theta2, theta3 = try_EE_position(pos3, True)
-    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos3)
+    # theta0, theta1, theta2, theta3 = try_EE_position(pos3, True)
+    # joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos3)
     # position 4
     pos4 = [0, 0, 70]
     # theta0, theta1, theta2, theta3 = try_EE_position(pos4, True)
     # joint_plot(theta0, theta1, theta2, theta3)
     # position 5
     pos5 = [0, -150, 50]
-    theta0, theta1, theta2, theta3 = try_EE_position(pos5, True)
-    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos5)
+    # theta0, theta1, theta2, theta3 = try_EE_position(pos5, True)
+    # joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos5)
 
 def trajectory_joint_angles(xyz_positions, speed=1):
     """ Takes list with form: [[x1, x2, ..., xn], [y1, y2, ..., yn], [z1, z2, ..., zn]]

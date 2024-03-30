@@ -167,6 +167,10 @@ def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
     #         transform_122(theta2, 95) @
     #         transform_223(theta3,105) @
     #         transform_32EE(thetaEE,75) @ vector)
+    robot.ang0 = theta0 #+ np.pi/2
+    robot.ang1 = theta1
+    robot.ang2 = theta2
+    robot.ang3 = theta3
 
     locations = robot.get_frame_origins_in_ground_frame()
     j0_pos = locations["J0"]
@@ -174,14 +178,18 @@ def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
     j2_pos = locations["J2"]
     j3_pos = locations["J3"]
     EE_pos = locations["EE"]
-
+    print("j0_po: ", j0_pos)
+    print("j1_po: ", j1_pos)
+    print("j2_po: ", j2_pos)
+    print("j3_po: ", j3_pos)
+    print("EE_pos: ", EE_pos)
     # joint coordinates:
-    print(j0_pos)
-    print(j1_pos)
-    xs = [0, j0_pos["x"], j1_pos["x"], j2_pos["x"], j3_pos["x"], EE_pos["y"]]
+    xs = [0, j0_pos["x"], j1_pos["x"], j2_pos["x"], j3_pos["x"], EE_pos["x"]]
     ys = [0, j0_pos["y"], j1_pos["y"], j2_pos["y"], j3_pos["y"], EE_pos["y"]]
     zs = [0, j0_pos["z"], j1_pos["z"], j2_pos["z"], j3_pos["z"], EE_pos["z"]]
-
+    print("xs: ", xs)
+    print("ys: ", ys)
+    print("zs: ", zs)
     # plot the joints and links:
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
@@ -209,8 +217,9 @@ def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
 
     # Add target EE position (for inverse kinematics verification)
     if EE_plot_pos:
+        print("Test")
         x, y, z = EE_plot_pos
-        ax.scatter(x, y, z, color="red")
+        ax.scatter(x/1000, y/1000, z/1000, color="red")
     plt.show()
 
 
@@ -226,8 +235,12 @@ if __name__ == "__main__":
     # assume that in assignment they take positive y value away from pcb
     # position 1
     pos1 = [100, -100, 100]
-    theta0, theta1, theta2, theta3 = try_EE_position(pos1, True)
-    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos1)
+    theta0, theta1, theta2, theta3 = try_EE_position(pos1, False)
+    print("Theta0 :", theta0)
+    print("Theta1 :", theta1)
+    print("Theta2 :", theta2)
+    print("Theta3 :", theta3)
+    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None)
     # position 2
     pos2 = [200, -100, 300]
     # theta0, theta1, theta2, theta3 = try_EE_position(pos2, True)
@@ -235,15 +248,15 @@ if __name__ == "__main__":
     # position 3
     pos3 = [0, 0, 300]
     theta0, theta1, theta2, theta3 = try_EE_position(pos3, True)
-    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos3)
+    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None)
     # position 4
     pos4 = [0, 0, 70]
     # theta0, theta1, theta2, theta3 = try_EE_position(pos4, True)
     # joint_plot(theta0, theta1, theta2, theta3)
     # position 5
     pos5 = [0, -150, 50]
-    theta0, theta1, theta2, theta3 = try_EE_position(pos5, True)
-    joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos5)
+    # theta0, theta1, theta2, theta3 = try_EE_position(pos5, True)
+    # joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=pos5)
 
 
 

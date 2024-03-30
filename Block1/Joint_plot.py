@@ -32,6 +32,9 @@ def joint_plot(theta0, theta1, theta2, theta3, EE_plot_pos=None):
     # joint coordinates:
     print("j0_po: ", j0_pos)
     print("j1_po: ", j1_pos)
+    print("j2_po: ", j2_pos)
+    print("j3_po: ", j3_pos)
+    print("EE_pos: ", EE_pos)
     xs = [0, j0_pos[0,0], j1_pos[0,0], j2_pos[0,0], j3_pos[0,0], EE_pos[0,0]]
     ys = [0, j0_pos[1,0], j1_pos[1,0], j2_pos[1,0], j3_pos[1,0], EE_pos[1,0]]
     zs = [0, j0_pos[2,0], j1_pos[2,0], j2_pos[2,0], j3_pos[2,0], EE_pos[2,0]]
