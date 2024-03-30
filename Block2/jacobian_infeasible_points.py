@@ -64,7 +64,8 @@ if __name__ == "__main__":
     vconst = 20
     start_point = np.array([136.7, 0, 176.1])
     target_point = np.array([200, 100, 300])
-    # target_point([0., 0., 70])
+    # target_point = np.array([0., 0., 70])
+    target_point = np.array([0., 0., 300])
     distance = np.linalg.norm(target_point - start_point)
     vdir = (target_point - start_point) / distance
     Tend = distance / vconst
