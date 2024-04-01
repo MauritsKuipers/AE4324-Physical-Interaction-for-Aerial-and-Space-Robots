@@ -39,7 +39,7 @@ def vertical_projection(x_global_ee, y_global_ee, z_global_ee):
     global_theta_0 = np.arctan2(y_global_ee,x_global_ee) + np.deg2rad(90)
     planar_x_ee = -np.sqrt(x_global_ee**2 + y_global_ee**2)
     planar_y_ee = 0
-    planar_z_ee = z_global_ee - 45 - 20
+    planar_z_ee = z_global_ee - 50 - 20
     return global_theta_0, planar_x_ee, planar_y_ee, planar_z_ee
 
 def try_EE_position(position, joint_limited=True):
