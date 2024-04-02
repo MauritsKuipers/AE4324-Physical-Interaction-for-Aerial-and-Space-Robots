@@ -40,42 +40,42 @@ class ExampleTraj(Node):
 		]
         elif dt <= t_hold and self.z == 0:
 	        point.positions = [self._HOME[0] + np.deg2rad(0),
-		self._HOME[1] - np.deg2rad(70),
-		self._HOME[2] - np.deg2rad(60),
-		self._HOME[3] - np.deg2rad(30),
-		1.0
-		]
+            self._HOME[1] - np.deg2rad(70),
+            self._HOME[2] - np.deg2rad(60),
+            self._HOME[3] - np.deg2rad(30),
+            1.0
+            ]
         elif dt <= t_drop and self.z == 0:
 	        point.positions = [self._HOME[0] + np.deg2rad(0),
-		self._HOME[1] - np.deg2rad(70),
-		self._HOME[2] - np.deg2rad(60) - np.deg2rad(45) * (dt - t_hold)/(t_drop - t_hold),
-		self._HOME[3] - np.deg2rad(30) + np.deg2rad(45) * (dt - t_hold)/(t_drop - t_hold),
-		1.0
-		]
+            self._HOME[1] - np.deg2rad(70),
+            self._HOME[2] - np.deg2rad(60) - np.deg2rad(45) * (dt - t_hold)/(t_drop - t_hold),
+            self._HOME[3] - np.deg2rad(30) + np.deg2rad(45) * (dt - t_hold)/(t_drop - t_hold),
+            1.0
+            ]
         elif self.z == 0:
 	        point.positions = [self._HOME[0] + np.deg2rad(0),
-		self._HOME[1] - np.deg2rad(70),
-		self._HOME[2] - np.deg2rad(60) - np.deg2rad(45),
-		self._HOME[3] - np.deg2rad(30) + np.deg2rad(45),
-		0.0
-		]
+            self._HOME[1] - np.deg2rad(70),
+            self._HOME[2] - np.deg2rad(60) - np.deg2rad(45),
+            self._HOME[3] - np.deg2rad(30) + np.deg2rad(45),
+            0.0
+            ]
 	        self._beginning = self.get_clock().now()
 	        self.z = 1
 	        print(self.z)
         elif dt <= t_target and self.z == 1:
 	        point.positions = [self._HOME[0] + np.deg2rad(30) * dt/t_target,
-		self._HOME[1] - np.deg2rad(70) * dt/t_target,
-		self._HOME[2] - np.deg2rad(60) * dt/t_target,
-		self._HOME[3] - np.deg2rad(30) * dt/t_target,
-		1.0
-		]
+            self._HOME[1] - np.deg2rad(70) * dt/t_target,
+            self._HOME[2] - np.deg2rad(60) * dt/t_target,
+            self._HOME[3] - np.deg2rad(30) * dt/t_target,
+            1.0
+            ]
         elif dt <= t_hold and self.z == 1:
 	        point.positions = [self._HOME[0] + np.deg2rad(30),
-		self._HOME[1] - np.deg2rad(70),
-		self._HOME[2] - np.deg2rad(60),
-		self._HOME[3] - np.deg2rad(30),
-		0.0
-		]
+            self._HOME[1] - np.deg2rad(70),
+            self._HOME[2] - np.deg2rad(60),
+            self._HOME[3] - np.deg2rad(30),
+            0.0
+            ]
         elif dt <= t_drop and self.z == 1:
 	        point.positions = [self._HOME[0] + np.deg2rad(30),
 		self._HOME[1] - np.deg2rad(70),
