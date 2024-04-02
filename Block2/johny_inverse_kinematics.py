@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from JohnyKinematics import Johny
+from Trajectory import trajectory_positions
 
 robot = Johny()
 def rad(angle_in_deg):
